@@ -1,0 +1,3 @@
+include ':mvvm_base'
+include ':app'
+rootProject.name = "MVVM Base"
