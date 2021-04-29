@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="colorWhite">#FFFFFF</color>
+
+    <color name="bg">#f0AAAAAA</color>
+
+    <color name="colorTxtGrey">#AAAAAA</color>
+    <color name="colorTxtBlack">#333333</color>
+    <color name="colorTxtOrange">#FF726B</color>
+    <color name="colorTxtYellow">#FE9400</color>
+    <color name="colorTxt666">#666666</color>
+    <color name="colorTxt999">#999999</color>
+    <color name="colorTxtGreen">#3AB890</color>
+    <color name="colorTxtDeepGreen">#07D028</color>
+    <color name="colorTxtPurse">#7639FF</color>
+    <color name="colorTxtRed">#FF726B</color>
+    <color name="colorTxtBlue">#0042FF</color>
+
+    <color name="colorLineGrey">#EEEEEE</color>
+
+    <color name="colorBgDeepGreen">#E8FBEC</color>
+    <color name="colorBgPurse">#EFE8FF</color>
+    <color name="colorBgGrey">#F5F7FA</color>
+    <color name="colorBgRed">#FFEFEF</color>
+    <color name="colorBgYellow">#FFF6E8</color>
+    <color name="colorBgGreen">#E6F9F9</color>
+
+    <color name="colorF5">#F5F5F5</color>
+</resources>

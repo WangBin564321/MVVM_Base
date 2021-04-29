@@ -4,6 +4,7 @@ package com.example.mvvm_base.base;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
@@ -13,6 +14,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.mvvm_base.util.PermissionUtil;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.example.mvvm_base.base.BaseViewModel.ParameterField;
 
@@ -21,10 +23,11 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 
-
 /**
- * Created by goldze on 2017/6/15.
- * 一个拥有DataBinding框架的基Activity
+ * desc:一个拥有DataBinding框架的基Activity
+ * date:2017/6/15
+ * author:goldze
+ * <p>
  * 这里根据项目业务可以换成你自己熟悉的BaseActivity, 但是需要继承RxAppCompatActivity,方便LifecycleProvider管理生命周期
  */
 public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseViewModel & LifecycleObserver> extends RxAppCompatActivity implements IBaseView {
@@ -40,7 +43,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         //私有的初始化Databinding和ViewModel方法
         initViewDataBinding(savedInstanceState);
         //私有的ViewModel与View的契约事件回调逻辑
-        registorUIChangeLiveDataCallBack();
+        registerUIChangeLiveDataCallBack();
         //页面数据初始化方法
         initData();
         //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
@@ -56,7 +59,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         if (viewModel != null) {
             viewModel.removeRxBus();
         }
-        if(binding != null){
+        if (binding != null) {
             binding.unbind();
         }
     }
@@ -102,19 +105,19 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      * =====================================================================
      **/
     //注册ViewModel与View的契约UI回调事件
-    protected void registorUIChangeLiveDataCallBack() {
+    protected void registerUIChangeLiveDataCallBack() {
         //加载对话框显示
         viewModel.getUC().getShowDialogEvent().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String title) {
-                showDialog(title);
+
             }
         });
         //加载对话框消失
         viewModel.getUC().getDismissDialogEvent().observe(this, new Observer<Void>() {
             @Override
             public void onChanged(@Nullable Void v) {
-                dismissDialog();
+
             }
         });
         //跳入新页面
@@ -142,6 +145,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
                 finish();
             }
         });
+
         //关闭上一层
         viewModel.getUC().getOnBackPressedEvent().observe(this, new Observer<Void>() {
             @Override
@@ -151,21 +155,6 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
         });
     }
 
-    public void showDialog(String title) {
-//        if (dialog != null) {
-//            dialog = dialog.getBuilder().title(title).build();
-//            dialog.show();
-//        } else {
-//            MaterialDialog.Builder builder = MaterialDialogUtils.showIndeterminateProgressDialog(this, title, true);
-//            dialog = builder.show();
-//        }
-    }
-
-    public void dismissDialog() {
-//        if (dialog != null && dialog.isShowing()) {
-//            dialog.dismiss();
-//        }
-    }
 
     /**
      * 跳转页面
@@ -264,5 +253,10 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      */
     public <T extends ViewModel> T createViewModel(FragmentActivity activity, Class<T> cls) {
         return ViewModelProviders.of(activity).get(cls);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        PermissionUtil.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

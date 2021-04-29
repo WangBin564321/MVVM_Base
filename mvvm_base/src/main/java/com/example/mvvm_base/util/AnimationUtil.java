@@ -1,4 +1,4 @@
-package com.example.mvvm_base;
+package com.example.mvvm_base.util;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;

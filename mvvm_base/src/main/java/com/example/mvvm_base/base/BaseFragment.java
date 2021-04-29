@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
@@ -15,6 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.mvvm_base.util.PermissionUtil;
 import com.trello.rxlifecycle2.components.support.RxFragment;
 
 import java.lang.reflect.ParameterizedType;
@@ -22,11 +24,14 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 import io.reactivex.annotations.Nullable;
+
 import com.example.mvvm_base.base.BaseViewModel.ParameterField;
 
 
 /**
- * Created by goldze on 2017/6/15.
+ * desc:一个拥有DataBinding框架的基Fragment
+ * date:2017/6/15
+ * author:goldze
  */
 public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseViewModel> extends RxFragment implements IBaseView {
     protected V binding;
@@ -69,7 +74,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         //私有的初始化Databinding和ViewModel方法
         initViewDataBinding();
         //私有的ViewModel与View的契约事件回调逻辑
-        registorUIChangeLiveDataCallBack();
+        registerUIChangeLiveDataCallBack();
         //页面数据初始化方法
         initData();
         //页面事件监听的方法，一般用于ViewModel层转到View层的事件注册
@@ -109,19 +114,17 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
      **/
     //注册ViewModel与View的契约UI回调事件
     @SuppressLint("FragmentLiveDataObserve")
-    protected void registorUIChangeLiveDataCallBack() {
+    protected void registerUIChangeLiveDataCallBack() {
         //加载对话框显示
         viewModel.getUC().getShowDialogEvent().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String title) {
-                showDialog(title);
             }
         });
         //加载对话框消失
         viewModel.getUC().getDismissDialogEvent().observe(this, new Observer<Void>() {
             @Override
             public void onChanged(@Nullable Void v) {
-                dismissDialog();
             }
         });
         //跳入新页面
@@ -158,13 +161,6 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
         });
     }
 
-    public void showDialog(String title) {
-
-    }
-
-    public void dismissDialog() {
-
-    }
 
     /**
      * 跳转页面
@@ -275,5 +271,10 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
      */
     public <T extends ViewModel> T createViewModel(Fragment fragment, Class<T> cls) {
         return ViewModelProviders.of(fragment).get(cls);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        PermissionUtil.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

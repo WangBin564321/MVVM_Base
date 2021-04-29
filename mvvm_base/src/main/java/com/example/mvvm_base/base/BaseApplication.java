@@ -6,13 +6,15 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
+import com.example.mvvm_base.crash.CrashExceptioner;
 import com.example.mvvm_base.util.Utils;
 
 
 /**
- * Created by goldze on 2017/6/15.
+ * desc: BaseApplication
+ * date:2017/6/15
+ * author:goldze
  */
-
 public class BaseApplication extends Application {
     private static Application sInstance;
 
@@ -20,6 +22,8 @@ public class BaseApplication extends Application {
     public void onCreate() {
         super.onCreate();
         setApplication(this);
+
+        CrashExceptioner.init(this);
     }
 
     /**
