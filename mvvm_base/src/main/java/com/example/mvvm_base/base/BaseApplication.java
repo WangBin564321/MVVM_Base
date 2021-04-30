@@ -23,6 +23,8 @@ public class BaseApplication extends Application {
         super.onCreate();
         setApplication(this);
 
+        CrashExceptioner.init(this);
+
     }
 
     /**
