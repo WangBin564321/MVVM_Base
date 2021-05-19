@@ -21,7 +21,9 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
 /**
- * Created by goldze on 2017/6/15.
+ * desc: BaseViewModel
+ * date:2017/6/15
+ * author:goldze
  */
 public class BaseViewModel<M extends BaseModel> extends AndroidViewModel implements IBaseViewModel, Consumer<Disposable> {
     protected M model;

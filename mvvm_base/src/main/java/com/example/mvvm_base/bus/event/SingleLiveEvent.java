@@ -28,6 +28,10 @@ import androidx.lifecycle.Observer;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
+ * desc: RecyclerViewHolder
+ * date:2017/6/15
+ * author:goldze
+ *
  * A lifecycle-aware observable that sends only new updates after subscription, used for events like
  * navigation and Snackbar messages.
  * <p>

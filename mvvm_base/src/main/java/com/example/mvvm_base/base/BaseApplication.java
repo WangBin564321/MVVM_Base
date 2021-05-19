@@ -3,6 +3,7 @@ package com.example.mvvm_base.base;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -17,6 +18,7 @@ import com.example.mvvm_base.util.Utils;
  */
 public class BaseApplication extends Application {
     private static Application sInstance;
+    private static final String TAG = "BaseApplication";
 
     @Override
     public void onCreate() {
@@ -42,31 +44,38 @@ public class BaseApplication extends Application {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 AppManager.getAppManager().addActivity(activity);
+                Log.d(TAG, "onActivityCreated==========>: " + activity.getClass().getSimpleName());
             }
 
             @Override
             public void onActivityStarted(Activity activity) {
+                Log.d(TAG, "onActivityStarted==========>: " + activity.getClass().getSimpleName());
             }
 
             @Override
             public void onActivityResumed(Activity activity) {
+                Log.d(TAG, "onActivityResumed==========>: " + activity.getClass().getSimpleName());
             }
 
             @Override
             public void onActivityPaused(Activity activity) {
+                Log.d(TAG, "onActivityPaused==========>: " + activity.getClass().getSimpleName());
             }
 
             @Override
             public void onActivityStopped(Activity activity) {
+                Log.d(TAG, "onActivityStopped==========>: " + activity.getClass().getSimpleName());
             }
 
             @Override
             public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+                Log.d(TAG, "onActivitySaveInstanceState==========>: " + activity.getClass().getSimpleName());
             }
 
             @Override
             public void onActivityDestroyed(Activity activity) {
                 AppManager.getAppManager().removeActivity(activity);
+                Log.d(TAG, "onActivityDestroyed==========>: " + activity.getClass().getSimpleName());
             }
         });
     }

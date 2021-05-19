@@ -19,7 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 /**
- * Created by tlh on 2016/2/15.
+ * desc: RecyclerViewHolder
+ * date:2017/6/15
+ * author:goldze
  */
 public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 

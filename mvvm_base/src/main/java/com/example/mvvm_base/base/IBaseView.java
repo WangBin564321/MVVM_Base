@@ -1,9 +1,10 @@
 package com.example.mvvm_base.base;
 
 /**
- * Created by goldze on 2017/6/15.
+ * desc: IBaseView
+ * date:2017/6/15
+ * author:goldze
  */
-
 public interface IBaseView {
     /**
      * 初始化界面传递参数

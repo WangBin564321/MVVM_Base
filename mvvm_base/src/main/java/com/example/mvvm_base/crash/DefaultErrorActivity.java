@@ -25,7 +25,9 @@ import static com.example.mvvm_base.crash.CrashExceptioner.isShowErrorDetailsFro
 import static com.example.mvvm_base.crash.CrashExceptioner.restartApplicationWithIntent;
 
 /**
- * 异常显示类
+ * desc: DefaultErrorActivity
+ * date:
+ * author:
  */
 public final class DefaultErrorActivity extends Activity {
 

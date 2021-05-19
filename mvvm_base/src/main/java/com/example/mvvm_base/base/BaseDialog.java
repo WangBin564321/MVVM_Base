@@ -23,11 +23,10 @@ import androidx.annotation.NonNull;
 import com.example.mvvm_base.R;
 import com.example.mvvm_base.util.ToolUtil;
 
-
 /**
- * 自定义的Dialog
- * <p>
- * create at 2017/5/5 14:26
+ * desc: BaseDialog
+ * date:2021-4-25 11:04
+ * author:bWang
  */
 public class BaseDialog extends Dialog {
     private Context ctx;

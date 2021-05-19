@@ -1,7 +1,9 @@
 package com.example.mvvm_base.base;
 
 /**
- * Created by goldze on 2017/6/15.
+ * desc: BaseModel
+ * date:2017/6/15
+ * author:goldze
  */
 public class BaseModel implements IModel {
 

@@ -25,6 +25,11 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+/**
+ * desc: CrashExceptioner
+ * date:
+ * author:
+ */
 @SuppressLint("NewApi")
 public final class CrashExceptioner {
 

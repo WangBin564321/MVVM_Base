@@ -38,8 +38,11 @@ public class AnimationUtil {
     private static AnimationUtil instance;
 
     public static AnimationUtil getInstance() {
-        if (instance == null) {
-            instance = new AnimationUtil();
+        if (instance == null) { //Single Checked
+            synchronized (AnimationUtil.class) {
+                if (instance == null) //Double Checked
+                    instance = new AnimationUtil();
+            }
         }
         return instance;
     }

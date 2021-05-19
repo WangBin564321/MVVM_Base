@@ -5,9 +5,11 @@ import android.app.Fragment;
 
 import java.util.Stack;
 
+
 /**
- * Created by goldze on 2017/6/15.
- * activity堆栈式管理
+ * desc: activity堆栈式管理
+ * date:2017/6/15
+ * author:goldze
  */
 public class AppManager {
 

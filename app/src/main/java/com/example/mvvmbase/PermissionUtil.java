@@ -1,7 +1,6 @@
-package com.example.mvvm_base.util;
+package com.example.mvvmbase;
 
 import android.app.Activity;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -10,24 +9,10 @@ import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
 
-import static android.content.ContentValues.TAG;
-
 /**
- * desc: 权限请求工具类
- * author:bWang
- * date:2020/12/9 9:56
- * tip: activity、fragment继承BaseActivity、BaseFragment直接使用
- * 未继承的需添加:
- *
- * @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
- * PermissionUtil.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults);
- * }
- * exam:
- * PermissionUtil.getInstance().requestPermissions(activity, "下载必须权限", 11, permissions, new PermissionUtil.PermissionsResultCallback() {
- * @Override public void hasPermissions() throws MalformedURLException {}
- * @Override public void onPermissionsGranted() throws MalformedURLException {}
- * @Override public void onPermissionsDenied(List<String> perms) {}
- * });
+ * Description:
+ * Author:bWang
+ * Date:2020/12/9 9:56
  */
 public class PermissionUtil implements EasyPermissions.PermissionCallbacks {
 
@@ -56,6 +41,7 @@ public class PermissionUtil implements EasyPermissions.PermissionCallbacks {
         this.requestCode = requestCode;
         this.rationale = message;
         this.mPermissionsResult = permissionsResult;
+
     }
 
     @Override

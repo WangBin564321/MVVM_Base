@@ -13,7 +13,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 /**
+ * desc: BaseRecyclerAdapter
+ * date:2021-4-25 11:04
+ * author:bWang
  * <p>
  * <p>
  * 该类的使用的时候是每加载一个布局就是调用一次该类
