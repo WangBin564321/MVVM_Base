@@ -109,7 +109,7 @@ public class BaseDialog extends Dialog {
         views.put(resId, tv);
         //设置内容
 
-        tv.setText(ToolUtil.isNull(content));
+        tv.setText(ToolUtil.null2String(content));
 
         return this;
     }

@@ -10,5 +10,6 @@ import android.os.Environment;
 public class Constants {
 
     public static final String ABSOLUTE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath();
+    public static final String TAG = "MVVM_BASE";
 
 }

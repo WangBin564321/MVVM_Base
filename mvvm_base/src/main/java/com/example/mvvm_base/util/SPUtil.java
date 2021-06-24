@@ -8,6 +8,13 @@ import android.content.SharedPreferences;
  */
 public final class SPUtil {
 
+    /**
+     * 存放String
+     *
+     * @param context
+     * @param key
+     * @param value
+     */
     public static void putString(Context context, String key, String value) {
         SharedPreferences share = context.getSharedPreferences("LoginInfos", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = share.edit();
@@ -15,11 +22,25 @@ public final class SPUtil {
         editor.apply();
     }
 
+    /**
+     * 读取String
+     *
+     * @param context
+     * @param key
+     * @return
+     */
     public static String getString(Context context, String key) {
         SharedPreferences sp = context.getSharedPreferences("LoginInfos", Context.MODE_PRIVATE);
         return sp.getString(key, "");
     }
 
+    /**
+     * 存放Boolean
+     *
+     * @param context
+     * @param key
+     * @param value
+     */
     public static void putBoolean(Context context, String key, boolean value) {
         SharedPreferences share = context.getSharedPreferences("LoginInfos", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = share.edit();
@@ -27,11 +48,25 @@ public final class SPUtil {
         editor.apply();
     }
 
+    /**
+     * 读取Boolean
+     *
+     * @param context
+     * @param key
+     * @return
+     */
     public static boolean getBoolean(Context context, String key) {
         SharedPreferences sp = context.getSharedPreferences("LoginInfos", Context.MODE_PRIVATE);
         return sp.getBoolean(key, false);
     }
 
+    /**
+     * 存放int
+     *
+     * @param context
+     * @param key
+     * @param value
+     */
     public static void putInt(Context context, String key, int value) {
         SharedPreferences share = context.getSharedPreferences("LoginInfos", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = share.edit();
@@ -39,6 +74,13 @@ public final class SPUtil {
         editor.apply();
     }
 
+    /**
+     * 读取int
+     *
+     * @param context
+     * @param key
+     * @return
+     */
     public static int getInt(Context context, String key) {
         SharedPreferences sp = context.getSharedPreferences("LoginInfos", Context.MODE_PRIVATE);
         return sp.getInt(key, -1);
