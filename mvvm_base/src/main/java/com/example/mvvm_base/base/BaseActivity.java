@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.mvvm_base.util.PermissionUtil;
@@ -252,7 +253,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
      * @return
      */
     public <T extends ViewModel> T createViewModel(FragmentActivity activity, Class<T> cls) {
-        return ViewModelProviders.of(activity).get(cls);
+        return new ViewModelProvider(activity).get(cls);
     }
 
     @Override

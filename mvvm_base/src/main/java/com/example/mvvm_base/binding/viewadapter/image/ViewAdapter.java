@@ -2,6 +2,7 @@ package com.example.mvvm_base.binding.viewadapter.image;
 
 
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.databinding.BindingAdapter;
@@ -22,6 +23,11 @@ public final class ViewAdapter {
                     .apply(new RequestOptions().placeholder(placeholderRes))
                     .into(imageView);
         }
+    }
+
+    @BindingAdapter(value = {"viewVisible"}, requireAll = false)
+    public static void setViewVisible(ImageView imageView, boolean viewVisible) {
+        imageView.setVisibility(viewVisible ? View.VISIBLE : View.GONE);
     }
 }
 
