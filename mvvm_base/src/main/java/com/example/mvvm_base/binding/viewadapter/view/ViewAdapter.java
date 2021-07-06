@@ -1,6 +1,7 @@
 package com.example.mvvm_base.binding.viewadapter.view;
 
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
@@ -111,24 +112,8 @@ public class ViewAdapter {
     /**
      * view的显示隐藏
      */
-    @BindingAdapter(value = {"isVisible"}, requireAll = false)
-    public static void isVisible(View view, final Boolean visibility) {
-        if (visibility) {
-            view.setVisibility(View.VISIBLE);
-        } else {
-            view.setVisibility(View.GONE);
-        }
+    @BindingAdapter(value = {"viewVisible"}, requireAll = false)
+    public static void setViewVisible(View view, boolean viewVisible) {
+        view.setVisibility(viewVisible ? View.VISIBLE : View.GONE);
     }
-//    @BindingAdapter({"onTouchCommand"})
-//    public static void onTouchCommand(View view, final ResponseCommand<MotionEvent, Boolean> onTouchCommand) {
-//        view.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (onTouchCommand != null) {
-//                    return onTouchCommand.execute(event);
-//                }
-//                return false;
-//            }
-//        });
-//    }
 }

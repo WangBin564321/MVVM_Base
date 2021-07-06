@@ -24,10 +24,5 @@ public final class ViewAdapter {
                     .into(imageView);
         }
     }
-
-    @BindingAdapter(value = {"viewVisible"}, requireAll = false)
-    public static void setViewVisible(ImageView imageView, boolean viewVisible) {
-        imageView.setVisibility(viewVisible ? View.VISIBLE : View.GONE);
-    }
 }
 
