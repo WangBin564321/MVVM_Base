@@ -42,10 +42,10 @@ public class BaseDialog extends Dialog {
     public int level = 0;//弹出框的默认优先级
 
     //禁止外部点击取消
-    @Override
-    public void setCanceledOnTouchOutside(boolean cancel) {
-        super.setCanceledOnTouchOutside(false);
-    }
+//    @Override
+//    public void setCanceledOnTouchOutside(boolean cancel) {
+//        super.setCanceledOnTouchOutside(false);
+//    }
 
     //禁用外部返回键
     @Override
