@@ -4,5 +4,6 @@
 
     <application android:requestLegacyExternalStorage="true">
         <activity android:name=".crash.DefaultErrorActivity" />
+        <activity android:name=".base.ContainerActivity" />
     </application>
 </manifest>
