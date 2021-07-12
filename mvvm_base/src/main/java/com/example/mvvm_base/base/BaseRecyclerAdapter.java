@@ -29,8 +29,6 @@ import java.util.List;
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerViewHolder> {
 
     public static final int TYPE_ITEM = 0;
-    public static final int TYPE_HEADER = -1;
-    public static final int TYPE_FOOTER = -2;
 
     public T getMItems(int position) {
         return mItems.get(position);
@@ -116,15 +114,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
      */
     @Override
     public int getItemViewType(int position) {
-        if (!isHeaderExist() && !isFooterExist())//头部和底部都不存在的时候直接使用父类的方法
-            return TYPE_ITEM;
-        else {
-            if (position == getHeaderPosition())//即将要加载的布局的位置和头部的位置是一样的返回加载头部的状态值
-                return TYPE_HEADER;
-            if (position == getFooterPosition())////即将要加载的布局的位置和头部的位置是一样的返回加载底部部的状态值
-                return TYPE_FOOTER;
-            return TYPE_ITEM;
-        }
+        return position;
     }
 
     /**
@@ -138,23 +128,9 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         int layoutId = -1;
-        switch (viewType) {
-            case TYPE_HEADER:
-                //这个方法只用在使用加载头部布局的时候会使用，但是这个方法是在该类的子类（实现类）里面
-                layoutId = getHeaderLayoutId();
-                break;
-            case TYPE_FOOTER:
-                //这个方法只用在使用加载底部布局的时候会使用，但是这个方法是在该类的子类（实现类）里面
-                layoutId = getFooterLayoutId();
-                break;
-            case TYPE_ITEM:
-                //加载正常部分，就是主要的数据展示区的数据
-                layoutId = getItemLayoutId(viewType);
-                break;
-            default:
-                //加入都没有加载布局，出现运行是异常
-                throw new RuntimeException("illegal viewType!");
-        }
+
+        layoutId = getItemLayoutId(viewType);
+
         //同理是没有加载布局，不管是头部 中间和底部都没有加载布局，给出一个运行时异常
         if (layoutId == -1)
 
@@ -171,7 +147,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
          * 在if语句里面对加载头部布局，和底部布局是对数据源进行了处理，所以在点击相应的item 的时候会对考虑不同的数据源的问题
          */
         //这里的判断就是点击事件监听器不为空，当前不是同步，也不是底部
-        if (mClickListener != null && viewType != TYPE_HEADER && viewType != TYPE_FOOTER) {
+        if (mClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -193,7 +169,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
             });
         }
 
-        if (mLongClickListener != null && viewType != TYPE_HEADER && viewType != TYPE_FOOTER) {
+        if (mLongClickListener != null) {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
