@@ -12,6 +12,7 @@ import com.example.mvvm_base.bus.event.SingleLiveEvent;
 import com.trello.rxlifecycle2.LifecycleProvider;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.ParameterizedType;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +40,7 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
 
     public BaseViewModel(@NonNull Application application, M model) {
         super(application);
-        this.model = model;
+        this.model = getNewInstance(this,0);
         mCompositeDisposable = new CompositeDisposable();
     }
 
@@ -48,6 +49,25 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
             mCompositeDisposable = new CompositeDisposable();
         }
         mCompositeDisposable.add(disposable);
+    }
+
+    public static <T> T getNewInstance(Object object, int i) {
+        if(object!=null){
+            try {
+                return ((Class<T>) ((ParameterizedType) (object.getClass()
+                        .getGenericSuperclass())).getActualTypeArguments()[i])
+                        .newInstance();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (ClassCastException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return null;
+
     }
 
     /**
