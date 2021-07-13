@@ -51,10 +51,10 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         mCompositeDisposable.add(disposable);
     }
 
-    public static <T> T getNewInstance(Object object, int i) {
+    public static <M> M getNewInstance(Object object, int i) {
         if(object!=null){
             try {
-                return ((Class<T>) ((ParameterizedType) (object.getClass()
+                return ((Class<M>) ((ParameterizedType) (object.getClass()
                         .getGenericSuperclass())).getActualTypeArguments()[i])
                         .newInstance();
             } catch (InstantiationException e) {
