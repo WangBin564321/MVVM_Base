@@ -35,12 +35,8 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
     private CompositeDisposable mCompositeDisposable;
 
     public BaseViewModel(@NonNull Application application) {
-        this(application, null);
-    }
-
-    public BaseViewModel(@NonNull Application application, M model) {
         super(application);
-        this.model = getNewInstance(this,0);
+        this.model = getNewInstance(this, 0);
         mCompositeDisposable = new CompositeDisposable();
     }
 
@@ -52,7 +48,7 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
     }
 
     public static <M> M getNewInstance(Object object, int i) {
-        if(object!=null){
+        if (object != null) {
             try {
                 return ((Class<M>) ((ParameterizedType) (object.getClass()
                         .getGenericSuperclass())).getActualTypeArguments()[i])
