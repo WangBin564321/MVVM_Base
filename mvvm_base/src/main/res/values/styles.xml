@@ -10,7 +10,7 @@
     </style>
 
     <style name="NoTitleDark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-
+        <item name="colorPrimary">@color/colorWhite</item>
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">false</item>
     </style>
 </resources>
