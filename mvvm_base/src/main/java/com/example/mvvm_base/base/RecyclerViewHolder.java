@@ -17,6 +17,8 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.mvvm_base.util.ToolUtil;
+
 
 /**
  * desc: RecyclerViewHolder
@@ -89,9 +91,9 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         return (RadioButton) getView(viewId);
     }
 
-    public RecyclerViewHolder setText(int viewId, String value) {
+    public RecyclerViewHolder setText(int viewId, Object value) {
         TextView view = findViewById(viewId);
-        view.setText(value);
+        view.setText(ToolUtil.null2String(value));
         return this;
     }
 

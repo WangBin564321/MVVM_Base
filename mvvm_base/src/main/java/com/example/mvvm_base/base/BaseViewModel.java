@@ -57,7 +57,7 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
                 ParameterizedType parameterizedType = (ParameterizedType) type;
                 // 参数化类型中可能有多个泛型参数
                 Type[] types = parameterizedType.getActualTypeArguments();
-                // 获取数据的第一个元素(User.class)
+                // 获取数据的第一个元素
                 try {
                     return ((Class<M>) types[0])
                             .newInstance();

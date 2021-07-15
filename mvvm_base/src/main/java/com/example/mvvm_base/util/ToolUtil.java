@@ -93,7 +93,7 @@ public class ToolUtil {
     /**
      * 获取当前时间
      *
-     * @param format 列格式：yyyy年MM月dd日 HH:mm:ss("yyyy-MM-dd HH:mm:ss")
+     * @param format 例格式：yyyy年MM月dd日 HH:mm:ss("yyyy-MM-dd HH:mm:ss")
      * @return
      */
     public static String getCurrentTime(String format) {
@@ -212,11 +212,12 @@ public class ToolUtil {
      *
      * @param date1
      * @param date2
+     * @param format
      * @return
      */
-    public static boolean compareDate(String date1, String date2) {
+    public static boolean compareDate(String date1, String date2, String format) {
         boolean isBigger = false;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
         Date dt1 = null;
         Date dt2 = null;
         try {
@@ -581,7 +582,7 @@ public class ToolUtil {
             PackageInfo info = manager.getPackageInfo(BaseApplication.getInstance().getPackageName(), 0);
             int versionCode = info.versionCode;
             String version = info.versionName;
-            return "版本：" + version;
+            return version;
         } catch (Exception e) {
             e.printStackTrace();
             return "找不到版本号";
