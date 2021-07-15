@@ -13,6 +13,7 @@ import com.trello.rxlifecycle2.LifecycleProvider;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +37,7 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
 
     public BaseViewModel(@NonNull Application application) {
         super(application);
-        this.model = getNewInstance(this, 0);
+        this.model = getNewInstance(this);
         mCompositeDisposable = new CompositeDisposable();
     }
 
@@ -47,20 +48,27 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
         mCompositeDisposable.add(disposable);
     }
 
-    public static <M> M getNewInstance(Object object, int i) {
+    public static <M> M getNewInstance(Object object) {
         if (object != null) {
-            try {
-                return ((Class<M>) ((ParameterizedType) (object.getClass()
-                        .getGenericSuperclass())).getActualTypeArguments()[i])
-                        .newInstance();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (ClassCastException e) {
-                e.printStackTrace();
-            }
 
+            Type type = object.getClass().getGenericSuperclass(); // generic 泛型
+            if (type instanceof ParameterizedType) {
+                // 强制转化“参数化类型”
+                ParameterizedType parameterizedType = (ParameterizedType) type;
+                // 参数化类型中可能有多个泛型参数
+                Type[] types = parameterizedType.getActualTypeArguments();
+                // 获取数据的第一个元素(User.class)
+                try {
+                    return ((Class<M>) types[0])
+                            .newInstance();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (ClassCastException e) {
+                    e.printStackTrace();
+                } // com.oa.shore.entity.User.class
+            }
         }
         return null;
 
