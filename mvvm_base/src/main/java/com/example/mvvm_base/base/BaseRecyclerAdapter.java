@@ -155,6 +155,13 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
         return holder;
     }
 
+    public boolean isEmpty() {
+        if (items == null || items.size() == 0)
+            return true;
+        return false;
+    }
+
+
     protected abstract int getEmptyLayoutId();
 
 
