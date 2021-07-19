@@ -1,5 +1,7 @@
 package com.example.mvvm_base.binding.viewadapter.view;
 
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,6 +11,7 @@ import androidx.databinding.BindingAdapter;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.functions.Consumer;
+
 import com.example.mvvm_base.binding.command.BindingCommand;
 import com.jakewharton.rxbinding2.view.RxView;
 
@@ -115,5 +118,16 @@ public class ViewAdapter {
     @BindingAdapter(value = {"viewVisible"}, requireAll = false)
     public static void setViewVisible(View view, boolean viewVisible) {
         view.setVisibility(viewVisible ? View.VISIBLE : View.GONE);
+    }
+
+
+    /**
+     * 背景
+     */
+    @BindingAdapter(value = {"bg"}, requireAll = false)
+    public static void setBg(View view, int drawableRes) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            view.setBackground(view.getContext().getDrawable(drawableRes));
+        }
     }
 }
