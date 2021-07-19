@@ -24,5 +24,13 @@ public final class ViewAdapter {
                     .into(imageView);
         }
     }
+
+    @BindingAdapter(value = {"avatar", "defaultRes"}, requireAll = false)
+    public static void setImageResource(ImageView imageView, String avatarUrl, int defaultRes) {
+        Glide.with(imageView.getContext()).load(avatarUrl).error(defaultRes)//异常时候显示的图片
+                .placeholder(defaultRes) //加载成功前显示的图片
+                .fallback(defaultRes) //url为空的时候,显示的图片
+                .into(imageView);
+    }
 }
 
