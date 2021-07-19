@@ -126,8 +126,9 @@ public class ViewAdapter {
      */
     @BindingAdapter(value = {"bg"}, requireAll = false)
     public static void setBg(View view, int drawableRes) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            view.setBackground(view.getContext().getDrawable(drawableRes));
-        }
+        if (drawableRes != 0)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                view.setBackground(view.getContext().getDrawable(drawableRes));
+            }
     }
 }
