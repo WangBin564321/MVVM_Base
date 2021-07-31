@@ -53,6 +53,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +101,35 @@ public class ToolUtil {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
         Date date = new Date(System.currentTimeMillis());
         return simpleDateFormat.format(date);
+    }
+
+    /**
+     * 间隔天数
+     *
+     * @param str1
+     * @param str2
+     * @param format
+     * @return
+     */
+    public static int getInterval(String str1, String str2, String format) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);// 输入日期的格式
+        Date date1 = null;
+        try {
+            date1 = simpleDateFormat.parse(str1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Date date2 = null;
+        try {
+            date2 = simpleDateFormat.parse(str2);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        GregorianCalendar cal1 = new GregorianCalendar();
+        GregorianCalendar cal2 = new GregorianCalendar();
+        cal1.setTime(date1);
+        cal2.setTime(date2);
+        return (int) ((cal2.getTimeInMillis() - cal1.getTimeInMillis()) / (1000 * 3600 * 24));// 从间隔毫秒变成间隔天数
     }
 
     /**
@@ -216,6 +246,8 @@ public class ToolUtil {
      * @return
      */
     public static boolean compareDate(String date1, String date2, String format) {
+        if (TextUtils.isEmpty(date1) || TextUtils.isEmpty(date2))
+            return false;
         boolean isBigger = false;
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         Date dt1 = null;
