@@ -258,7 +258,7 @@ public class ToolUtil {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        if (dt1.getTime() > dt2.getTime()) {
+        if (dt1.getTime() > dt2.getTime() || dt1.getTime() == dt2.getTime()) {
             isBigger = true;
         } else if (dt1.getTime() < dt2.getTime()) {
             isBigger = false;
