@@ -18,7 +18,7 @@ public class ViewAdapter {
      * 背景
      */
     @BindingAdapter(value = {"txtColor"}, requireAll = false)
-    public static void setBg(TextView textView, int colorRes) {
+    public static void setTxtColor(TextView textView, int colorRes) {
         if (colorRes != 0)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 textView.setTextColor(textView.getContext().getColor(colorRes));
