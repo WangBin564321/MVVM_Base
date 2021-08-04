@@ -135,8 +135,8 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
                 @Override
                 public void onClick(View v) {
                     //判断如果当前加载的布局里面不包含有头部的时候调用的点击事件
-
-                    mClickListener.onItemClick(holder.itemView, holder.getLayoutPosition());
+                    if (!isEmpty())
+                        mClickListener.onItemClick(holder.itemView, holder.getLayoutPosition());
 
                 }
             });
