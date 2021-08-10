@@ -14,6 +14,7 @@ public final class RegexConstants {
      * 电信号段: 133,149,153,170,173,177,180,181,189
      * 全球星：1349
      * 虚拟运营商：170
+     *
      * @param str
      * @return 待检测的字符串
      */
@@ -104,6 +105,11 @@ public final class RegexConstants {
      * 正则：负浮点数
      */
     public static final String REGEX_NEGATIVE_FLOAT = "^-[1-9]\\d*\\.\\d*|-0\\.\\d*[1-9]\\d*$";
+
+    /**
+     * 正则：图片
+     */
+    public static final String REGEX_PHOTO = "[.jpg,.png,.jpeg,.bmp,.gif]$";
 
     ///////////////////////////////////////////////////////////////////////////
     // If u want more please visit http://toutiao.com/i6231678548520731137

@@ -190,4 +190,14 @@ public final class RegexUtils {
         if (input == null) return null;
         return Pattern.compile(regex).matcher(input).replaceAll(replacement);
     }
+
+    /**
+     * 图片
+     *
+     * @param input
+     * @return
+     */
+    public static boolean isPhoto(final CharSequence input) {
+        return isMatch(RegexConstants.REGEX_PHOTO, input);
+    }
 }

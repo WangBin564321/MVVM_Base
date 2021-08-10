@@ -103,8 +103,7 @@ public class AnimationUtil {
      * @param repeatMode   重复模式,Animation.RESTART:从头开始，Animation.REVERSE:逆序
      */
     public void startAlphaAnimation(View view, Interpolator interpolator, float fromAlpha, float toAlpha, int duration, boolean fillAfter, int repeatCount, int repeatMode) {
-        if (mAlphaAnimation == null)
-            mAlphaAnimation = new AlphaAnimation(fromAlpha, toAlpha);
+        mAlphaAnimation = new AlphaAnimation(fromAlpha, toAlpha);
         mAlphaAnimation.setInterpolator(interpolator);
         mAlphaAnimation.setDuration(duration);
         mAlphaAnimation.setRepeatCount(repeatCount);
@@ -134,8 +133,7 @@ public class AnimationUtil {
      * @return AlphaAnimation
      */
     public AlphaAnimation getAlphaAnimation(Interpolator interpolator, float fromAlpha, float toAlpha, int duration, boolean fillAfter, int repeatCount, int repeatMode) {
-        if (mAlphaAnimation == null)
-            mAlphaAnimation = new AlphaAnimation(fromAlpha, toAlpha);
+        mAlphaAnimation = new AlphaAnimation(fromAlpha, toAlpha);
         mAlphaAnimation.setInterpolator(interpolator);
         mAlphaAnimation.setDuration(duration);
         mAlphaAnimation.setRepeatCount(repeatCount);
@@ -160,8 +158,7 @@ public class AnimationUtil {
      * @param repeatMode  重复模式,Animation.RESTART:从头开始，Animation.REVERSE:相反运动
      */
     public void startTranslateAnimation(View view, float fromX, float toX, float fromY, float toY, int duration, boolean fillAfter, int repeatCount, int repeatMode) {
-        if (mTranslateAnimation == null)
-            mTranslateAnimation = new TranslateAnimation(fromX, toX, fromY, toY);
+        mTranslateAnimation = new TranslateAnimation(fromX, toX, fromY, toY);
         mTranslateAnimation.setDuration(duration);
         mTranslateAnimation.setRepeatCount(repeatCount);
         mTranslateAnimation.setRepeatMode(repeatMode);
@@ -181,8 +178,7 @@ public class AnimationUtil {
      * @return TranslateAnimation
      */
     public TranslateAnimation getTranslateAnimation(float fromX, float toX, float fromY, float toY, int duration, boolean fillAfter, int repeatCount, int repeatMode) {
-        if (mTranslateAnimation == null)
-            mTranslateAnimation = new TranslateAnimation(fromX, toX, fromY, toY);
+        mTranslateAnimation = new TranslateAnimation(fromX, toX, fromY, toY);
         mTranslateAnimation.setDuration(duration);
         mTranslateAnimation.setRepeatCount(repeatCount);
         mTranslateAnimation.setRepeatMode(repeatMode);
@@ -207,8 +203,7 @@ public class AnimationUtil {
      * @param duration   时间间隔
      */
     public void startScaleAnimation(View view, float fromXScale, float toXScale, float fromYScale, float toYScale, int pivotXType, float pivotX, int pivotYType, float pivotY, int duration) {
-        if (mScaleAnimation == null)
-            mScaleAnimation = new ScaleAnimation(fromXScale, toXScale, fromYScale, toYScale, pivotXType, pivotX, pivotYType, pivotY);
+        mScaleAnimation = new ScaleAnimation(fromXScale, toXScale, fromYScale, toYScale, pivotXType, pivotX, pivotYType, pivotY);
         mScaleAnimation.setDuration(duration);
         view.startAnimation(mScaleAnimation);
     }
@@ -230,8 +225,7 @@ public class AnimationUtil {
      * @param repeatMode  重复模式,Animation.RESTART:从头开始，Animation.REVERSE:相反运动
      */
     public void startRotateAnimation(View view, float fromDegrees, float toDegrees, int pivotXType, float pivotX, int pivotYType, float pivotY, int duration, int repeatCount, int repeatMode) {
-        if (mRotateAnimation == null)
-            mRotateAnimation = new RotateAnimation(fromDegrees, toDegrees, pivotXType, pivotX, pivotYType, pivotY);
+        mRotateAnimation = new RotateAnimation(fromDegrees, toDegrees, pivotXType, pivotX, pivotYType, pivotY);
         mRotateAnimation.setDuration(duration);
         mRotateAnimation.setRepeatCount(repeatCount);
         mRotateAnimation.setRepeatMode(repeatMode);
@@ -247,8 +241,7 @@ public class AnimationUtil {
      * @param animationList 动画合集
      */
     public void startAnimationSet(View view, List<Animation> animationList) {
-        if (mAnimationSet == null)
-            mAnimationSet = new AnimationSet(true);
+        mAnimationSet = new AnimationSet(true);
         for (int i = 0; i < animationList.size(); i++) {
             mAnimationSet.addAnimation(animationList.get(i));
         }
@@ -267,8 +260,7 @@ public class AnimationUtil {
      * @param repeatMode  重复模式,Animation.RESTART:从头开始，Animation.REVERSE:相反运动
      */
     public void startAlphaPropertyAnimator(View view, int duration, int repeatCount, int repeatMode, float... values) {
-        if (mAlphaPropertyAnimator == null)
-            mAlphaPropertyAnimator = ObjectAnimator.ofFloat(view, "alpha", values);
+        mAlphaPropertyAnimator = ObjectAnimator.ofFloat(view, "alpha", values);
         mAlphaPropertyAnimator.setDuration(duration);
         mAlphaPropertyAnimator.setRepeatCount(repeatCount);
         mAlphaPropertyAnimator.setRepeatMode(repeatMode);
@@ -297,8 +289,7 @@ public class AnimationUtil {
                 propertyName = "translationY";
                 break;
         }
-        if (mTranslatePropertyAnimator == null)
-            mTranslatePropertyAnimator = ObjectAnimator.ofFloat(view, propertyName, values);
+        mTranslatePropertyAnimator = ObjectAnimator.ofFloat(view, propertyName, values);
         mTranslatePropertyAnimator.setDuration(duration);
         mTranslatePropertyAnimator.setRepeatMode(repeatMode);
         mTranslatePropertyAnimator.start();
@@ -326,8 +317,7 @@ public class AnimationUtil {
                 propertyName = "scaleY";
                 break;
         }
-        if (mScalePropertyAnimator == null)
-            mScalePropertyAnimator = ObjectAnimator.ofFloat(view, propertyName, values);
+        mScalePropertyAnimator = ObjectAnimator.ofFloat(view, propertyName, values);
         mScalePropertyAnimator.setDuration(duration);
         mScalePropertyAnimator.setRepeatMode(repeatMode);
         mScalePropertyAnimator.start();
@@ -345,8 +335,7 @@ public class AnimationUtil {
      */
     @SuppressLint("ObjectAnimatorBinding")
     public void startRotatePropertyAnimator(View view, int duration, int repeatMode, float... values) {
-        if (mRotatePropertyAnimator == null)
-            mRotatePropertyAnimator = ObjectAnimator.ofFloat(view, "rotation", values);
+        mRotatePropertyAnimator = ObjectAnimator.ofFloat(view, "rotation", values);
         mRotatePropertyAnimator.setDuration(duration);
         mRotatePropertyAnimator.setRepeatMode(repeatMode);
         mRotatePropertyAnimator.start();
@@ -355,8 +344,7 @@ public class AnimationUtil {
     private AnimatorSet mAnimatorSet;
 
     public void startAnimatorSet(List<Animator> animatorList) {
-        if (mAnimatorSet == null)
-            mAnimatorSet = new AnimatorSet();
+        mAnimatorSet = new AnimatorSet();
         mAnimatorSet.playTogether(animatorList);
         mAnimatorSet.start();
     }
