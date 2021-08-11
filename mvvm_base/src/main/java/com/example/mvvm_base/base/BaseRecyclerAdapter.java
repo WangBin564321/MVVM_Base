@@ -192,10 +192,10 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
      */
     @Override
     final public int getItemCount() {
-        if (getEmptyLayoutId() == 0)
-            return items.size() == 0 ? 0 : items.size();
+        if (isEmpty())
+            return getEmptyLayoutId() == 0 ? 0 : 1;
         else
-            return items.size() == 0 ? 1 : items.size();
+            return items.size();
     }
 
     /**
