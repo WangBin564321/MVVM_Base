@@ -1,6 +1,7 @@
 package com.example.mvvm_base.base;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,9 +29,13 @@ public class ContainerActivity extends RxAppCompatActivity {
     public static final String FRAGMENT = "fragment";
     public static final String BUNDLE = "bundle";
     protected WeakReference<Fragment> mFragment;
+    boolean isLandscape;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isLandscape = getIntent().getBooleanExtra("isLandscape", true);
+        //设置强制横屏
+        setRequestedOrientation(isLandscape ? ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         super.onCreate(savedInstanceState);
