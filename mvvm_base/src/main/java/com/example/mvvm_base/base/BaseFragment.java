@@ -143,7 +143,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
             public void onChanged(@Nullable Map<String, Object> params) {
                 String canonicalName = (String) params.get(ParameterField.CANONICAL_NAME);
                 Bundle bundle = (Bundle) params.get(ParameterField.BUNDLE);
-                startContainerActivity(canonicalName, bundle);
+                startContainerActivity(canonicalName, bundle,null);
             }
         });
         //关闭界面
@@ -192,7 +192,7 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
      * @param canonicalName 规范名 : Fragment.class.getCanonicalName()
      */
     public void startContainerActivity(String canonicalName) {
-        startContainerActivity(canonicalName, null);
+        startContainerActivity(canonicalName, null, null);
     }
 
     /**
@@ -201,10 +201,12 @@ public abstract class BaseFragment<V extends ViewDataBinding, VM extends BaseVie
      * @param canonicalName 规范名 : Fragment.class.getCanonicalName()
      * @param bundle        跳转所携带的信息
      */
-    public void startContainerActivity(String canonicalName, Bundle bundle) {
+    public void startContainerActivity(String canonicalName, Bundle bundle, @androidx.annotation.Nullable Boolean isLandscape) {
         Intent intent = new Intent(getContext(), ContainerActivity.class);
         intent.putExtra(ContainerActivity.FRAGMENT, canonicalName);
         if (bundle != null) {
+            if (isLandscape != null)
+                bundle.putBoolean("IsLandscape", isLandscape);
             intent.putExtra(ContainerActivity.BUNDLE, bundle);
         }
         startActivity(intent);
