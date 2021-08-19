@@ -33,7 +33,7 @@ public class ContainerActivity extends RxAppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        isLandscape = getIntent().getBooleanExtra("IsLandscape", true);
+        isLandscape = getIntent().getBooleanExtra("IsLandscape", false);
         //设置强制横屏
         setRequestedOrientation(isLandscape ? ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
