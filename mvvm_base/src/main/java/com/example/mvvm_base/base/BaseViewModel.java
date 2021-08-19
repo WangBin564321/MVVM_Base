@@ -136,7 +136,7 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
      * @param canonicalName 规范名 : Fragment.class.getCanonicalName()
      */
     public void startContainerActivity(String canonicalName) {
-        startContainerActivity(canonicalName, null);
+        startContainerActivity(canonicalName, null,null);
     }
 
     /**
@@ -145,10 +145,12 @@ public class BaseViewModel<M extends BaseModel> extends AndroidViewModel impleme
      * @param canonicalName 规范名 : Fragment.class.getCanonicalName()
      * @param bundle        跳转所携带的信息
      */
-    public void startContainerActivity(String canonicalName, Bundle bundle) {
+    public void startContainerActivity(String canonicalName, Bundle bundle,@androidx.annotation.Nullable Boolean isLandscape) {
         Map<String, Object> params = new HashMap<>();
         params.put(ParameterField.CANONICAL_NAME, canonicalName);
         if (bundle != null) {
+            if (isLandscape != null)
+                bundle.putBoolean("IsLandscape", isLandscape);
             params.put(ParameterField.BUNDLE, bundle);
         }
         uc.startContainerActivityEvent.postValue(params);
