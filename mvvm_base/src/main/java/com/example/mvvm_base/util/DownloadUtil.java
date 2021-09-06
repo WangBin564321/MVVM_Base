@@ -59,23 +59,27 @@ public class DownloadUtil {
         return instance;
     }
 
-    public void checkToDownload(Activity activity, String dirName, String fileName, String urlStr, DownLoadListener listener) throws MalformedURLException {
-        PermissionUtil.getInstance().requestPermissions(activity, "下载必须权限", 11, permissions, new PermissionUtil.PermissionsResultCallback() {
-            @Override
-            public void hasPermissions() throws MalformedURLException {
-                downloadFile(Constants.ABSOLUTE_PATH + "/" + dirName, fileName, urlStr, listener);
-            }
+    public void checkToDownload(Activity activity, String dirName, String fileName, String urlStr, DownLoadListener listener) {
+        try {
+            PermissionUtil.getInstance().requestPermissions(activity, "下载必须权限", 11, permissions, new PermissionUtil.PermissionsResultCallback() {
+                @Override
+                public void hasPermissions() throws MalformedURLException {
+                    downloadFile(Constants.ABSOLUTE_PATH + "/" + dirName, fileName, urlStr, listener);
+                }
 
-            @Override
-            public void onPermissionsGranted() throws MalformedURLException {
-                downloadFile(Constants.ABSOLUTE_PATH + "/" + dirName, fileName, urlStr, listener);
-            }
+                @Override
+                public void onPermissionsGranted() throws MalformedURLException {
+                    downloadFile(Constants.ABSOLUTE_PATH + "/" + dirName, fileName, urlStr, listener);
+                }
 
-            @Override
-            public void onPermissionsDenied(List<String> perms) {
-                new AppSettingsDialog.Builder(activity).setTitle("申请权限").setRequestCode(11).setRationale("下载必须权限").build().show();
-            }
-        });
+                @Override
+                public void onPermissionsDenied(List<String> perms) {
+                    new AppSettingsDialog.Builder(activity).setTitle("申请权限").setRequestCode(11).setRationale("下载必须权限").build().show();
+                }
+            });
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
     }
 
