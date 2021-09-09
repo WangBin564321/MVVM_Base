@@ -28,10 +28,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     }
 
     public void setItems(List<T> items) {
-        if (items != null && items.size() != 0)
-            isEmpty = false;
-        else
-            isEmpty = true;
+        isEmpty = (items == null || items.size() == 0) ? true : false;
         this.items.clear();
         if (isHeaderExist()) this.items.add(0, null);
         if (isEmpty) this.items.add(this.items.size(), null);
@@ -53,8 +50,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
      */
     public BaseRecyclerAdapter(Context ctx, List<T> list) {
         items = (list != null) ? list : new ArrayList<T>();
-        if (items == null || items.size() == 0)
-            isEmpty = true;
+        isEmpty = (items == null || items.size() == 0) ? true : false;
         mContext = ctx;
         mInflater = LayoutInflater.from(ctx);
         //判断是否加载头部，同时对数据源做处理，给头部和底部预留出显得位置
