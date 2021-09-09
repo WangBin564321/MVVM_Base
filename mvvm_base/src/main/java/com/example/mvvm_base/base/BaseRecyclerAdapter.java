@@ -32,7 +32,8 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
         this.items = new ArrayList<>();
         if (isHeaderExist()) this.items.add(0, null);
         if (isEmptyExist()) this.items.add(this.items.size(), null);
-        this.items.addAll(items);
+        if (!isEmpty)
+            this.items.addAll(items);
         if (isFooterExist()) this.items.add(this.items.size(), null);
     }
 
