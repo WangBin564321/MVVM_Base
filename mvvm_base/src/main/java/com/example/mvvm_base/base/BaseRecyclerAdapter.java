@@ -204,7 +204,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
      * @return
      */
     final public boolean isEmptyExist() {
-        return getEmptyLayoutId() != -1;
+        return isEmpty && getEmptyLayoutId() != -1;
     }
 
     /**
