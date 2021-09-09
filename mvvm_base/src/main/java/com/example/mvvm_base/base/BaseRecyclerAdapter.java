@@ -34,7 +34,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
             isEmpty = true;
         this.items.clear();
         if (isHeaderExist()) this.items.add(0, null);
-        if (isEmpty) this.items.add(1, null);
+        if (isEmpty) this.items.add(this.items.size(), null);
         this.items.addAll(items);
         if (isFooterExist()) this.items.add(this.items.size(), null);
     }
@@ -59,7 +59,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
         mInflater = LayoutInflater.from(ctx);
         //判断是否加载头部，同时对数据源做处理，给头部和底部预留出显得位置
         if (isHeaderExist()) items.add(0, null);
-        if (isEmpty()) items.add(1, null);
+        if (isEmpty()) items.add(items.size(), null);
         if (isFooterExist()) items.add(items.size(), null);
     }
 
