@@ -31,7 +31,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
         isEmpty = (items == null || items.size() == 0) ? true : false;
         this.items = new ArrayList<>();
         if (isHeaderExist()) this.items.add(0, null);
-        if (isEmpty) this.items.add(this.items.size(), null);
+        if (isEmptyExist()) this.items.add(this.items.size(), null);
         this.items.addAll(items);
         if (isFooterExist()) this.items.add(this.items.size(), null);
     }
@@ -55,7 +55,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
         mInflater = LayoutInflater.from(ctx);
         //判断是否加载头部，同时对数据源做处理，给头部和底部预留出显得位置
         if (isHeaderExist()) items.add(0, null);
-        if (isEmpty()) items.add(items.size(), null);
+        if (isEmptyExist()) items.add(items.size(), null);
         if (isFooterExist()) items.add(items.size(), null);
     }
 
@@ -74,7 +74,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
             return TYPE_HEADER;
         if (isFooterExist() && position == getFooterPosition())
             return TYPE_FOOTER;
-        if (isEmpty() && position == getEmptyPosition())
+        if (isEmptyExist() && position == getEmptyPosition())
             return TYPE_Empty;
         return position;
     }
@@ -190,7 +190,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     }
 
     /**
-     * 是否存在空布局
+     * 是否为空
      *
      * @return
      */
@@ -199,13 +199,28 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     }
 
     /**
+     * 是否存在空布局
+     *
+     * @return
+     */
+    final public boolean isEmptyExist() {
+        return getEmptyLayoutId() != -1;
+    }
+
+    /**
+     * 返回空布局layoutId
+     *
      * @return
      */
     protected int getEmptyLayoutId() {
         return -1;
     }
 
-
+    /**
+     * 返回空布局position
+     *
+     * @return
+     */
     final public int getEmptyPosition() {
         if (isEmpty())
             return getHeaderPosition() + 1;
