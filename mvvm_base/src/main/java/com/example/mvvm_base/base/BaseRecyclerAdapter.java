@@ -1,36 +1,23 @@
 package com.example.mvvm_base.base;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
-
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * <p>
- * <p>
- * 该类的使用的时候是每加载一个布局就是调用一次该类
- * 该类里面最重要的方法有三
- * onCreateViewHolder  创建显示数据的item的布局
- * onBindViewHolder  对每个item绑定数据
- * getItemViewType  在加载不同布局的时候需要调用该方法，
- */
+
 public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerViewHolder> {
 
-    public static final int TYPE_ITEM = 0; //正常布局
-    public static final int TYPE_EMPTY = -1; //空布局
-
-    protected final Context mContext;
-    protected LayoutInflater mInflater;
-    protected List<T> items;
+    public static final int TYPE_HEADER = -1;
+    public static final int TYPE_FOOTER = -2;
+    public static final int TYPE_Empty = -3;
+    boolean isEmpty = true;
 
     public T getItems(int position) {
         return items.get(position);
@@ -41,11 +28,21 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
     }
 
     public void setItems(List<T> items) {
-        this.items = items;
+        if (items != null && items.size() != 0)
+            isEmpty = false;
+        else
+            isEmpty = true;
+        this.items.clear();
+        if (isHeaderExist()) this.items.add(0, null);
+        if (isEmpty) this.items.add(1, null);
+        this.items.addAll(items);
+        if (isFooterExist()) this.items.add(this.items.size(), null);
     }
 
+    protected List<T> items;
+    protected final Context mContext;
+    protected LayoutInflater mInflater;
     private OnItemClickListener mClickListener;
-    private OnItemLongClickListener mLongClickListener;
 
 
     /**
@@ -56,23 +53,16 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
      */
     public BaseRecyclerAdapter(Context ctx, List<T> list) {
         items = (list != null) ? list : new ArrayList<T>();
+        if (items == null || items.size() == 0)
+            isEmpty = true;
         mContext = ctx;
         mInflater = LayoutInflater.from(ctx);
+        //判断是否加载头部，同时对数据源做处理，给头部和底部预留出显得位置
+        if (isHeaderExist()) items.add(0, null);
+        if (isEmpty()) items.add(1, null);
+        if (isFooterExist()) items.add(items.size(), null);
     }
 
-    /**
-     * 构造函数
-     *
-     * @param ctx
-     * @param list
-     * @param headIsFormItems 头部数据来自于整体的数据
-     */
-    public BaseRecyclerAdapter(Context ctx, List<T> list, boolean headIsFormItems) {
-        items = (list != null) ? list : new ArrayList<T>();
-        mContext = ctx;
-        mInflater = LayoutInflater.from(ctx);
-
-    }
 
     /**
      * 如果需要在子类重写该方法，建议参照此形式
@@ -84,11 +74,13 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
      */
     @Override
     public int getItemViewType(int position) {
-        if (getEmptyLayoutId() == 0)
-            return TYPE_ITEM;
-        else if (items == null || items.size() == 0)
-            return TYPE_EMPTY;
-        return TYPE_ITEM;
+        if (isHeaderExist() && position == getHeaderPosition())
+            return TYPE_HEADER;
+        if (isFooterExist() && position == getFooterPosition())
+            return TYPE_FOOTER;
+        if (isEmpty() && position == getEmptyPosition())
+            return TYPE_Empty;
+        return position;
     }
 
     /**
@@ -99,25 +91,26 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
      *                 需要理解的是没加载一个布局这个类，以及这里面的方法都不调用一次
      * @return 通过判断需要加载的布局的holder对象
      */
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         int layoutId;
         switch (viewType) {
-            case TYPE_ITEM:
-                //加载正常部分，就是主要的数据展示区的数据
-                layoutId = getItemLayoutId(viewType);
+            case TYPE_HEADER:
+                //这个方法只用在使用加载头部布局的时候会使用，但是这个方法是在该类的子类（实现类）里面
+                layoutId = getHeaderLayoutId();
                 break;
-            case TYPE_EMPTY:
+            case TYPE_FOOTER:
+                //这个方法只用在使用加载底部布局的时候会使用，但是这个方法是在该类的子类（实现类）里面
+                layoutId = getFooterLayoutId();
+                break;
+            case TYPE_Empty:
+                //加载正常部分，就是主要的数据展示区的数据
                 layoutId = getEmptyLayoutId();
                 break;
             default:
-                //加入都没有加载布局，出现运行是异常
-                throw new RuntimeException("illegal viewType!");
+                layoutId = getItemLayoutId();
+                break;
         }
-        //同理是没有加载布局，不管是头部 中间和底部都没有加载布局，给出一个运行时异常
-        if (layoutId == -1)
-            throw new RuntimeException("The method getHeaderLayoutId() return_material the wrong id, you should override it and return_material the correct id");
 
 
         //为解决复用而存在的一个类，同时在该类里面可以获得每个item对象， holder里面就包含有item View的对象
@@ -130,40 +123,98 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
          * 在if语句里面对加载头部布局，和底部布局是对数据源进行了处理，所以在点击相应的item 的时候会对考虑不同的数据源的问题
          */
         //这里的判断就是点击事件监听器不为空，当前不是同步，也不是底部
-        if (mClickListener != null) {
+        if (mClickListener != null && viewType != TYPE_HEADER && viewType != TYPE_FOOTER) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //判断如果当前加载的布局里面不包含有头部的时候调用的点击事件
-                    if (!isEmpty())
-                        mClickListener.onItemClick(holder.itemView, holder.getLayoutPosition());
-
+                    mClickListener.onItemClick(holder.itemView, holder.getLayoutPosition());
                 }
             });
         }
 
-
-        if (mLongClickListener != null) {
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    mLongClickListener.onItemLongClick(holder.itemView, holder.getLayoutPosition());
-                    return true;
-                }
-            });
-        }
         return holder;
     }
 
+
+    /**
+     * 在加载底部布局的时候需要实现该方法，同时返回底部布局的layoutID
+     *
+     * @return
+     */
+    protected int getFooterLayoutId() {
+        return -1;
+    }
+
+    /**
+     * 判断是否存在底部的布局
+     *
+     * @return
+     */
+    final public boolean isFooterExist() {
+        return getFooterLayoutId() != -1;
+    }
+
+    /**
+     * 在加载头部布局的时候需要实现该方法，同时返回头部布局的layoutID
+     *
+     * @return
+     */
+    protected int getHeaderLayoutId() {
+        return -1;
+    }
+
+    /**
+     * 判断当前头部是否存在不同的布局
+     *
+     * @return
+     */
+    final public boolean isHeaderExist() {
+        return getHeaderLayoutId() != -1;
+    }
+
+    /**
+     * 当头部存在的时候返回头部的位置
+     *
+     * @return
+     */
+    final public int getHeaderPosition() {
+        if (isHeaderExist()) return 0;
+        return -1;
+    }
+
+    /**
+     * 当底部存在的时候返回底部的位置
+     *
+     * @return
+     */
+    final public int getFooterPosition() {
+        if (isFooterExist()) return getItemCount() - 1;
+        return -2;
+    }
+
+    /**
+     * 是否存在空布局
+     *
+     * @return
+     */
     public boolean isEmpty() {
-        if (items == null || items.size() == 0)
-            return true;
-        return false;
+        return isEmpty;
+    }
+
+    /**
+     * @return
+     */
+    protected int getEmptyLayoutId() {
+        return -1;
     }
 
 
-    protected abstract int getEmptyLayoutId();
-
+    final public int getEmptyPosition() {
+        if (isEmpty())
+            return getHeaderPosition() + 1;
+        return -3;
+    }
 
     /**
      * 这是最根本的加载数据的方法，是实现接口以后必须实现的方法，最重要的方法之一
@@ -176,11 +227,17 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
      */
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        //调用中间部分（就是数据展示部分的）的绑定数据的方法
-        if (items != null && items.size() > 0) {
-            bindData(holder, position, items.get(position));
+        if (position == getFooterPosition()) {
+            bindFooter(holder, position);//调用绑定底部数据的方法
+        } else if (position == getHeaderPosition()) {
+            bindHeader(holder, position);//调用头部数据的方法
         } else {
-            bindData(holder, position, null);
+            //调用中间部分（就是数据展示部分的）的绑定数据的方法
+            if (items != null && items.size() > 0) {
+                bindData(holder, position, items.get(position));
+            } else {
+                bindData(holder, position, null);
+            }
         }
     }
 
@@ -192,10 +249,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
      */
     @Override
     final public int getItemCount() {
-        if (isEmpty())
-            return getEmptyLayoutId() == 0 ? 0 : 1;
-        else
-            return items.size();
+        return items.size();
     }
 
     /**
@@ -205,8 +259,17 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
      * @param item
      */
     public void add(int pos, T item) {
-        items.add(pos, item);
-        notifyItemInserted(pos);
+        if (pos != getHeaderPosition() && pos != getFooterPosition() + 1) {
+            items.add(pos, item);
+            notifyItemInserted(pos);
+        } else {
+            try {
+                throw new Exception("your position to add or delete should consider the header and footer.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        notifyDataSetChanged();
     }
 
     /**
@@ -215,15 +278,18 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
      * @param pos
      */
     public void delete(int pos) {
-        items.remove(pos);
-        notifyItemRemoved(pos);
+        if (pos != getHeaderPosition() && pos != getFooterPosition()) {
+            items.remove(pos);
+            notifyItemRemoved(pos);
+        } else {
+            try {
+                throw new Exception("your position to add or delete should consider the header and footer.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    private int type;
-
-    public void setType(int type) {
-        this.type = type;
-    }
 
     /**
      * 在特定的位置之间交换位置，该位置已考虑header和footer
@@ -232,8 +298,18 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
      * @param toPosition
      */
     public void swap(int fromPosition, int toPosition) {
-        Collections.swap(items, fromPosition, toPosition);
-        notifyItemMoved(fromPosition, toPosition);
+        int head = getHeaderPosition();
+        int foot = getFooterPosition();
+        if (fromPosition != head && toPosition != head && fromPosition != foot && toPosition != foot) {
+            Collections.swap(items, fromPosition, toPosition);
+            notifyItemMoved(fromPosition, toPosition);
+        } else {
+            try {
+                throw new Exception("your position to swap should consider the header and footer.");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -245,14 +321,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
         mClickListener = listener;
     }
 
-    /**
-     * 调用item长的点击事件就是调用这个方法，然后实现监听事件的接口
-     *
-     * @param listener
-     */
-    final public void setOnItemLongClickListener(OnItemLongClickListener listener) {
-        mLongClickListener = listener;
-    }
 
     /**
      * 重写该方法进行header视图的数据绑定
@@ -277,10 +345,9 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
      * 重写该方法，根据viewType设置item的layout
      * 相当于关联每一个item的布局
      *
-     * @param viewType 通过重写getItemViewType（）设置，默认item是0
      * @return
      */
-    abstract protected int getItemLayoutId(int viewType);
+    abstract protected int getItemLayoutId();
 
     /**
      * 重写该方法进行item数据项视图的数据绑定
@@ -299,11 +366,5 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
         void onItemClick(View itemView, int pos);
     }
 
-    /**
-     * 实现item的长顶啊及事件需要实现的方法
-     */
-    public interface OnItemLongClickListener {
-        void onItemLongClick(View itemView, int pos);
-    }
 
 }
