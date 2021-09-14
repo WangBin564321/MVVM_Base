@@ -60,15 +60,14 @@ public class DownloadUtil {
     }
 
     public void checkToDownload(Activity activity, String dirName, String fileName, String urlStr, DownLoadListener listener) {
-        try {
             PermissionUtil.getInstance().requestPermissions(activity, "下载必须权限", 11, permissions, new PermissionUtil.PermissionsResultCallback() {
                 @Override
-                public void hasPermissions() throws MalformedURLException {
+                public void hasPermissions()  {
                     downloadFile(Constants.ABSOLUTE_PATH + "/" + dirName, fileName, urlStr, listener);
                 }
 
                 @Override
-                public void onPermissionsGranted() throws MalformedURLException {
+                public void onPermissionsGranted()  {
                     downloadFile(Constants.ABSOLUTE_PATH + "/" + dirName, fileName, urlStr, listener);
                 }
 
@@ -77,18 +76,21 @@ public class DownloadUtil {
                     new AppSettingsDialog.Builder(activity).setTitle("申请权限").setRequestCode(11).setRationale("下载必须权限").build().show();
                 }
             });
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+
 
     }
 
 
-    public void downloadFile(String dirName, String fileName, String urlStr, DownLoadListener listener) throws MalformedURLException {
+    public void downloadFile(String dirName, String fileName, String urlStr, DownLoadListener listener) {
         if (exitDir(dirName)) {
             final long startTime = System.currentTimeMillis();
             OkHttpClient okHttpClient = new OkHttpClient();
-            Request request = new Request.Builder().url(new URL(urlStr)).build();
+            Request request = null;
+            try {
+                request = new Request.Builder().url(new URL(urlStr)).build();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
             okHttpClient.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {

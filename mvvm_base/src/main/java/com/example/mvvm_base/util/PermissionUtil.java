@@ -47,7 +47,7 @@ public class PermissionUtil implements EasyPermissions.PermissionCallbacks {
     }
 
 
-    public void requestPermissions(Activity activity, String message, int requestCode, String[] permissions, PermissionsResultCallback permissionsResult) throws MalformedURLException {
+    public void requestPermissions(Activity activity, String message, int requestCode, String[] permissions, PermissionsResultCallback permissionsResult) {
         if (EasyPermissions.hasPermissions(activity, permissions)) {
             permissionsResult.hasPermissions();
             return;
@@ -60,11 +60,7 @@ public class PermissionUtil implements EasyPermissions.PermissionCallbacks {
 
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
-        try {
-            mPermissionsResult.onPermissionsGranted();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+        mPermissionsResult.onPermissionsGranted();
     }
 
     @Override
@@ -78,9 +74,9 @@ public class PermissionUtil implements EasyPermissions.PermissionCallbacks {
     }
 
     public interface PermissionsResultCallback {
-        void hasPermissions() throws MalformedURLException;
+        void hasPermissions();
 
-        void onPermissionsGranted() throws MalformedURLException;
+        void onPermissionsGranted();
 
         void onPermissionsDenied(List<String> perms);
     }
