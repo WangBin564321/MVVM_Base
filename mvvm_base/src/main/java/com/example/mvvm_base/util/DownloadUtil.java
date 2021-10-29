@@ -5,7 +5,7 @@ import android.app.Activity;
 import android.util.Log;
 
 
-import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,7 +21,6 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import pub.devrel.easypermissions.AppSettingsDialog;
-import pub.devrel.easypermissions.EasyPermissions;
 
 
 /**
@@ -79,8 +78,25 @@ public class DownloadUtil {
                     new AppSettingsDialog.Builder(activity).setTitle("申请权限").setRequestCode(11).setRationale("下载必须权限").build().show();
                 }
             });
+    }
 
+    public void checkToDownload(Fragment fragment, String dirName, String fileName, String urlStr, DownLoadListener listener) {
+        PermissionUtil.getInstance().requestPermissions(fragment, "下载必须权限", 11, permissions, new PermissionUtil.PermissionsResultCallback() {
+            @Override
+            public void hasPermissions()  {
+                downloadFile(Constants.ABSOLUTE_PATH + "/" + dirName, fileName, urlStr, listener);
+            }
 
+            @Override
+            public void onPermissionsGranted()  {
+                downloadFile(Constants.ABSOLUTE_PATH + "/" + dirName, fileName, urlStr, listener);
+            }
+
+            @Override
+            public void onPermissionsDenied(List<String> perms) {
+                new AppSettingsDialog.Builder(fragment.getActivity()).setTitle("申请权限").setRequestCode(11).setRationale("下载必须权限").build().show();
+            }
+        });
     }
 
 

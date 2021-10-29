@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
-import java.net.MalformedURLException;
 import java.util.List;
 
 import pub.devrel.easypermissions.EasyPermissions;
@@ -53,6 +53,17 @@ public class PermissionUtil implements EasyPermissions.PermissionCallbacks {
             return;
         }
         EasyPermissions.requestPermissions(activity, message, requestCode, permissions);
+        this.requestCode = requestCode;
+        this.rationale = message;
+        this.mPermissionsResult = permissionsResult;
+    }
+
+    public void requestPermissions(Fragment fragment, String message, int requestCode, String[] permissions, PermissionsResultCallback permissionsResult) {
+        if (EasyPermissions.hasPermissions(fragment.getContext(), permissions)) {
+            permissionsResult.hasPermissions();
+            return;
+        }
+        EasyPermissions.requestPermissions(fragment, message, requestCode, permissions);
         this.requestCode = requestCode;
         this.rationale = message;
         this.mPermissionsResult = permissionsResult;
