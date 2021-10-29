@@ -29,7 +29,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.tv_test:
                 Log.e(TAG, "onClick: =============>");
-                try {
                     DownloadUtil.getInstance().checkToDownload(this, "test", "test.apk", "http://192.168.10.10/eomupload/apk/upgrade/app-release.apk", new DownloadUtil.DownLoadListener() {
                         @Override
                         public void onDownloading(int progress) {
@@ -51,10 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                         }
                     });
-                } catch (MalformedURLException e) {
-                    Log.e(TAG, "onClick: =============>" + e.getMessage());
-                    e.printStackTrace();
-                }
+
                 break;
         }
     }

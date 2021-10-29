@@ -60,11 +60,13 @@ public class PermissionUtil implements EasyPermissions.PermissionCallbacks {
 
     @Override
     public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        Log.e(TAG, "onPermissionsGranted: ===============>");
         mPermissionsResult.onPermissionsGranted();
     }
 
     @Override
     public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        Log.e(TAG, "onPermissionsDenied: ===============>");
         mPermissionsResult.onPermissionsDenied(perms);
     }
 
