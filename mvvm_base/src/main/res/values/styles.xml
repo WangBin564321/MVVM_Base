@@ -11,7 +11,7 @@
         <item name="android:windowExitAnimation">@anim/out_animation</item>
     </style>
 
-    <style name="NoTitleDark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="NoTitleDark" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor" tools:targetApi="lollipop">@color/colorWhite</item>
         <item name="android:windowTranslucentStatus" tools:targetApi="kitkat">false</item>
     </style>
