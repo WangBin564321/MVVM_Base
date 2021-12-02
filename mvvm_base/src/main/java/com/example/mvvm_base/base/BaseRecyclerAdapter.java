@@ -120,7 +120,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<Recycl
          * 在if语句里面对加载头部布局，和底部布局是对数据源进行了处理，所以在点击相应的item 的时候会对考虑不同的数据源的问题
          */
         //这里的判断就是点击事件监听器不为空，当前不是同步，也不是底部
-        if (mClickListener != null && viewType != TYPE_HEADER && viewType != TYPE_FOOTER) {
+        if (mClickListener != null && viewType != TYPE_HEADER && viewType != TYPE_FOOTER && viewType != TYPE_Empty) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
