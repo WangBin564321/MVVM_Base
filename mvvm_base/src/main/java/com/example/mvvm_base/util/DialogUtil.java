@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 
 import androidx.annotation.LayoutRes;
@@ -66,7 +67,7 @@ public class DialogUtil {
     public static void showCallbackDialog(Context context, String message, @NonNull @LayoutRes int layoutId) {
         BaseDialog callbackDialog = new BaseDialog(context, layoutId);
         callbackDialog.getWindow().setLayout(ToolUtil.dp2px(context, 300),
-                ToolUtil.dp2px(context, 175));
+                ViewGroup.LayoutParams.WRAP_CONTENT);
         callbackDialog.setTextViewContent(R.id.tv_callback, message);
         callbackDialog.getTextView(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
