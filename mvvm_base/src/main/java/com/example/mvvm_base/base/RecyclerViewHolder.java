@@ -219,5 +219,16 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         return this;
     }
 
+    /**
+     * 控制view显隐
+     *
+     * @param viewId
+     * @param visible
+     */
+    public void setVisible(int viewId, boolean visible) {
+        View view = findViewById(viewId);
+        view.setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
 
 }

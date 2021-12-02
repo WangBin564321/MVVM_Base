@@ -36,13 +36,13 @@ public final class DefaultErrorActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.customactivityoncrash_default_error_activity);
-        Button restartButton = (Button) findViewById(R.id.customactivityoncrash_error_activity_restart_button);
+        setContentView(R.layout.ac_default_error);
+        Button restartButton = (Button) findViewById(R.id.btn_restart);
 
         final Class<? extends Activity> restartActivityClass = getRestartActivityClassFromIntent(getIntent());
 
         if (restartActivityClass != null) {
-            restartButton.setText(getString(R.string.customactivityoncrash_error_activity_restart_app));
+            restartButton.setText(getString(R.string.ac_error_restart_app));
             restartButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -59,7 +59,7 @@ public final class DefaultErrorActivity extends Activity {
             });
         }
 
-        Button moreInfoButton = (Button) findViewById(R.id.customactivityoncrash_error_activity_more_info_button);
+        Button moreInfoButton = (Button) findViewById(R.id.btn_more_info);
         if (!isShowErrorDetails()) {//用户设置不显示错误信息
             moreInfoButton.setVisibility(View.GONE);
         }
@@ -71,15 +71,15 @@ public final class DefaultErrorActivity extends Activity {
                     //We retrieve all the error data and show it
 
                     AlertDialog dialog = new AlertDialog.Builder(DefaultErrorActivity.this)
-                            .setTitle(R.string.customactivityoncrash_error_activity_error_details_title)
+                            .setTitle(R.string.ac_error_error_details_title)
                             .setMessage(getAllErrorDetailsFromIntent(DefaultErrorActivity.this, getIntent()))
-                            .setPositiveButton(R.string.customactivityoncrash_error_activity_error_details_close, null)
-                            .setNeutralButton(R.string.customactivityoncrash_error_activity_error_details_copy,
+                            .setPositiveButton(R.string.ac_error_error_details_close, null)
+                            .setNeutralButton(R.string.ac_error_error_details_copy,
                                     new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             copyErrorToClipboard();
-                                            Toast.makeText(DefaultErrorActivity.this, R.string.customactivityoncrash_error_activity_error_details_copied, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(DefaultErrorActivity.this, R.string.ac_error_error_details_copied, Toast.LENGTH_SHORT).show();
                                         }
                                     })
                             .show();

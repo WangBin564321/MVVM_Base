@@ -26,7 +26,6 @@ public class BaseApplication extends Application {
         setApplication(this);
 
         CrashExceptioner.init(this);
-
     }
 
     /**
