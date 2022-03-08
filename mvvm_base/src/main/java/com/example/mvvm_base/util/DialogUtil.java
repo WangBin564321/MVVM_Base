@@ -85,7 +85,7 @@ public class DialogUtil {
         callbackDialog.show();
     }
 
-    interface CallbackDialogClickListener {
+    public interface CallbackDialogClickListener {
         void confirmClick();
     }
 
