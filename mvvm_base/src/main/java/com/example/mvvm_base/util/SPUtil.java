@@ -3,87 +3,185 @@ package com.example.mvvm_base.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import java.util.LinkedList;
+
 /**
  * SharePreference 工具类
  */
 public final class SPUtil {
 
     /**
-     * 存放String
+     * 保存数据到SharedPreferences
      *
-     * @param context
-     * @param key
-     * @param value
+     * @param key   键
+     * @param value 需要保存的数据
+     * @return 保存结果
      */
-    public static void putString(Context context, String key, String value) {
-        SharedPreferences share = context.getSharedPreferences("LoginInfos", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = share.edit();
-        editor.putString(key, value);
+    public static boolean putData(SharedPreferences sp, String key, Object value) {
+        boolean result;
+        SharedPreferences.Editor editor = sp.edit();
+        String type = value.getClass().getSimpleName();
+        try {
+            switch (type) {
+                case "Boolean":
+                    editor.putBoolean(key, (Boolean) value);
+                    break;
+                case "Long":
+                    editor.putLong(key, (Long) value);
+                    break;
+                case "Float":
+                    editor.putFloat(key, (Float) value);
+                    break;
+                case "String":
+                    editor.putString(key, (String) value);
+                    break;
+                case "Integer":
+                    editor.putInt(key, (Integer) value);
+                    break;
+                default:
+                    Gson gson = new Gson();
+                    String json = gson.toJson(value);
+                    editor.putString(key, json);
+                    break;
+            }
+            result = true;
+        } catch (Exception e) {
+            result = false;
+            e.printStackTrace();
+        }
         editor.apply();
+        return result;
     }
 
     /**
-     * 读取String
+     * 获取SharedPreferences中保存的数据
      *
-     * @param context
-     * @param key
-     * @return
+     * @param key          键
+     * @param defaultValue 获取失败默认值
+     * @return 从SharedPreferences读取的数据
      */
-    public static String getString(Context context, String key) {
-        SharedPreferences sp = context.getSharedPreferences("LoginInfos", Context.MODE_PRIVATE);
-        return sp.getString(key, "");
+    public static Object getData(Context context, String key, Object defaultValue) {
+        Object result;
+        SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+        String type = defaultValue.getClass().getSimpleName();
+        try {
+            switch (type) {
+                case "Boolean":
+                    result = sp.getBoolean(key, (Boolean) defaultValue);
+                    break;
+                case "Long":
+                    result = sp.getLong(key, (Long) defaultValue);
+                    break;
+                case "Float":
+                    result = sp.getFloat(key, (Float) defaultValue);
+                    break;
+                case "String":
+                    result = sp.getString(key, (String) defaultValue);
+                    break;
+                case "Integer":
+                    result = sp.getInt(key, (Integer) defaultValue);
+                    break;
+                default:
+                    Gson gson = new Gson();
+                    String json = sp.getString(key, "");
+                    if (!json.equals("") && json.length() > 0) {
+                        result = gson.fromJson(json, defaultValue.getClass());
+                    } else {
+                        result = defaultValue;
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            result = null;
+            e.printStackTrace();
+        }
+        return result;
     }
 
     /**
-     * 存放Boolean
+     * 用于保存集合
      *
-     * @param context
-     * @param key
-     * @param value
+     * @param key  key
+     * @param list 集合数据
+     * @return 保存结果
      */
-    public static void putBoolean(Context context, String key, boolean value) {
-        SharedPreferences share = context.getSharedPreferences("LoginInfos", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = share.edit();
-        editor.putBoolean(key, value);
+    public static <T> boolean putListData(SharedPreferences sp, String key, LinkedList<T> list) {
+        boolean result;
+        SharedPreferences.Editor editor = sp.edit();
+        JsonArray array = new JsonArray();
+        if (list.size() <= 0) {
+            editor.putString(key, array.toString());
+            editor.apply();
+            return false;
+        }
+        String type = list.get(0).getClass().getSimpleName();
+        try {
+            switch (type) {
+                case "Boolean":
+                    for (int i = 0; i < list.size(); i++) {
+                        array.add((Boolean) list.get(i));
+                    }
+                    break;
+                case "Long":
+                    for (int i = 0; i < list.size(); i++) {
+                        array.add((Long) list.get(i));
+                    }
+                    break;
+                case "Float":
+                    for (int i = 0; i < list.size(); i++) {
+                        array.add((Float) list.get(i));
+                    }
+                    break;
+                case "String":
+                    for (int i = 0; i < list.size(); i++) {
+                        array.add((String) list.get(i));
+                    }
+                    break;
+                case "Integer":
+                    for (int i = 0; i < list.size(); i++) {
+                        array.add((Integer) list.get(i));
+                    }
+                    break;
+                default:
+                    Gson gson = new Gson();
+                    for (int i = 0; i < list.size(); i++) {
+                        JsonElement obj = gson.toJsonTree(list.get(i));
+                        array.add(obj);
+                    }
+                    break;
+            }
+            editor.putString(key, array.toString());
+            result = true;
+        } catch (Exception e) {
+            result = false;
+            e.printStackTrace();
+        }
         editor.apply();
+        return result;
     }
 
     /**
-     * 读取Boolean
+     * 获取保存的List
      *
-     * @param context
-     * @param key
-     * @return
+     * @param key key
+     * @return 对应的Lis集合
      */
-    public static boolean getBoolean(Context context, String key) {
-        SharedPreferences sp = context.getSharedPreferences("LoginInfos", Context.MODE_PRIVATE);
-        return sp.getBoolean(key, false);
-    }
-
-    /**
-     * 存放int
-     *
-     * @param context
-     * @param key
-     * @param value
-     */
-    public static void putInt(Context context, String key, int value) {
-        SharedPreferences share = context.getSharedPreferences("LoginInfos", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = share.edit();
-        editor.putInt(key, value);
-        editor.apply();
-    }
-
-    /**
-     * 读取int
-     *
-     * @param context
-     * @param key
-     * @return
-     */
-    public static int getInt(Context context, String key) {
-        SharedPreferences sp = context.getSharedPreferences("LoginInfos", Context.MODE_PRIVATE);
-        return sp.getInt(key, -1);
+    public static <T> LinkedList<T> getListData(SharedPreferences sp, String key, Class<T> cls) {
+        LinkedList<T> list = new LinkedList<>();
+        String json = sp.getString(key, "");
+        if (!json.equals("") && json.length() > 0) {
+            Gson gson = new Gson();
+            JsonArray array = new JsonParser().parse(json).getAsJsonArray();
+            for (JsonElement elem : array) {
+                list.add(gson.fromJson(elem, cls));
+            }
+        }
+        return list;
     }
 
     /**

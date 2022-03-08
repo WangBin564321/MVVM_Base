@@ -61,4 +61,7 @@ dependencies {
     //下拉刷新，上拉加载
     api 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-14'
 
+    api 'com.google.code.gson:gson:2.8.6'
+
+
 }
