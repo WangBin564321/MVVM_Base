@@ -9,6 +9,7 @@ import android.view.WindowManager;
 
 import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.mvvm_base.R;
 import com.example.mvvm_base.base.BaseDialog;
@@ -63,33 +64,29 @@ public class DialogUtil {
         }
     }
 
-
-    public static void showCallbackDialog(Context context, String message, @NonNull @LayoutRes int layoutId) {
-        BaseDialog callbackDialog = new BaseDialog(context, layoutId);
+    /**
+     * 提醒弹窗
+     *
+     * @param context
+     * @param message
+     * @param layoutId
+     * @param callbackDialogClickListener
+     */
+    public static void showCallbackDialog(Context context, String message, @Nullable @LayoutRes Integer layoutId, @Nullable CallbackDialogClickListener callbackDialogClickListener) {
+        BaseDialog callbackDialog = new BaseDialog(context, layoutId == null ? R.layout.dialog_callback : layoutId);
         callbackDialog.getWindow().setLayout(ToolUtil.dp2px(context, 300),
                 ViewGroup.LayoutParams.WRAP_CONTENT);
         callbackDialog.setTextViewContent(R.id.tv_callback, message);
-        callbackDialog.getTextView(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callbackDialog.dismiss();
-            }
+        callbackDialog.getTextView(R.id.tv_confirm).setOnClickListener(v -> {
+            if (callbackDialogClickListener != null)
+                callbackDialogClickListener.confirmClick();
+            callbackDialog.dismiss();
         });
         callbackDialog.show();
     }
 
-    public static void showCallbackDialog(Context context, String message) {
-        BaseDialog callbackDialog = new BaseDialog(context, R.layout.dialog_callback);
-        callbackDialog.getWindow().setLayout(ToolUtil.dp2px(context, 300),
-                ToolUtil.dp2px(context, 175));
-        callbackDialog.setTextViewContent(R.id.tv_callback, message);
-        callbackDialog.getTextView(R.id.tv_confirm).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                callbackDialog.dismiss();
-            }
-        });
-        callbackDialog.show();
+    interface CallbackDialogClickListener {
+        void confirmClick();
     }
 
 }
