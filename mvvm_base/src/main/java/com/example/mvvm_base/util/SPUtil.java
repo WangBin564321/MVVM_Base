@@ -22,8 +22,9 @@ public final class SPUtil {
      * @param value 需要保存的数据
      * @return 保存结果
      */
-    public static boolean putData(SharedPreferences sp, String key, Object value) {
+    public static boolean putData(Context context, String name, String key, Object value) {
         boolean result;
+        SharedPreferences sp = context.getSharedPreferences(name, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         String type = value.getClass().getSimpleName();
         try {
@@ -65,9 +66,9 @@ public final class SPUtil {
      * @param defaultValue 获取失败默认值
      * @return 从SharedPreferences读取的数据
      */
-    public static Object getData(Context context, String key, Object defaultValue) {
+    public static Object getData(Context context, String name, String key, Object defaultValue) {
         Object result;
-        SharedPreferences sp = context.getSharedPreferences(context.getPackageName(), Context.MODE_PRIVATE);
+        SharedPreferences sp = context.getSharedPreferences(name, Context.MODE_PRIVATE);
         String type = defaultValue.getClass().getSimpleName();
         try {
             switch (type) {
